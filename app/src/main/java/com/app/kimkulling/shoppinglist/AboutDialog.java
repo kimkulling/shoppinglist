@@ -2,8 +2,6 @@ package com.app.kimkulling.shoppinglist;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
-import android.content.pm.PackageManager;
 import android.text.SpannableString;
 import android.text.util.Linkify;
 import android.view.InflateException;
@@ -13,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 /**
- * Created by kimku_000 on 29.03.2016.
+ * This class implements a simple about dialog box.
  */
 public class AboutDialog {
     public static void show( Activity parentActivity ) {

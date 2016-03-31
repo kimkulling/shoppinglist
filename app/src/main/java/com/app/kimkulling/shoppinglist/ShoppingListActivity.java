@@ -3,15 +3,11 @@ package com.app.kimkulling.shoppinglist;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-//import android.text.Editable;
 import android.util.Log;
 import android.view.View;
-//import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
-import java.util.regex.Pattern;
 
 public class ShoppingListActivity extends AppCompatActivity {
     private static final String TAG         = "ShoppingListActivity";
@@ -66,7 +62,7 @@ public class ShoppingListActivity extends AppCompatActivity {
 
         final String shopName = getIntent().getExtras().getString( "shop" );
         clearCache();
-        if ( "none" != shopName ) {
+        if (  shopName.equals( "none" ) ) {
             ShoppingItem item = mDBAccess.getShoppingListByShop( shopName );
             if ( null != item ) {
                 mItemCache = item.getItems();
