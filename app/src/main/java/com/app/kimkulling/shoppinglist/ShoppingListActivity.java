@@ -62,14 +62,19 @@ public class ShoppingListActivity extends AppCompatActivity {
 
         final String shopName = getIntent().getExtras().getString( "shop" );
         clearCache();
-        if (  shopName.equals( "none" ) ) {
-            ShoppingItem item = mDBAccess.getShoppingListByShop( shopName );
-            if ( null != item ) {
-                mItemCache = item.getItems();
-                mShopCache = item.getShop();
-                mShoppingListShop.setText( mShopCache, TextView.BufferType.EDITABLE);
-                mShoppingListEdit.setText( mItemCache, TextView.BufferType.EDITABLE);
+        try {
+            if (!shopName.equals("none")) {
+                ShoppingItem item = mDBAccess.getShoppingListByShop(shopName);
+                if (null != item) {
+                    mItemCache = item.getItems();
+                    mShopCache = item.getShop();
+                    mShoppingListShop.setText(mShopCache, TextView.BufferType.EDITABLE);
+                    mShoppingListEdit.setText(mItemCache, TextView.BufferType.EDITABLE);
+                }
             }
+        } catch( NullPointerException e ) {
+            Log.e( TAG, "Null pointer exception:" );
+            Log.e( TAG, e.getStackTrace().toString() );
         }
 
         Log.d( TAG, "Shop-Cache = " + mShopCache + ", ItemsCache = " + mItemCache );
