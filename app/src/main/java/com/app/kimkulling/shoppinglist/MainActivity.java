@@ -5,9 +5,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,10 +26,11 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
-    Button mNewListButton;
-    DatabaseAccess mDBAccess;
-    ListView mSLView;
-    ArrayAdapter<String> mSLAdapter;
+    private Button mNewListButton;
+    private DatabaseAccess mDBAccess;
+    private ListView mSLView;
+    private ArrayAdapter<String> mSLAdapter;
+    private GestureDetectorCompat mDetector;
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -52,11 +55,11 @@ public class MainActivity extends AppCompatActivity {
         });
 
         mNewListButton = (Button) findViewById( R.id.new_list_button );
-        mNewListButton.setOnClickListener((new View.OnClickListener() {
+        mNewListButton.setOnClickListener( ( new View.OnClickListener() {
             public void onClick(View v) {
                 onCreateShoppingList( v, "new" );
             }
-        }));
+        } ) );
 
         mSLView = (ListView) findViewById( R.id.shoppingListView );
         if ( null == mSLView ) {
@@ -93,6 +96,8 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Log.d( TAG, "No database for Shopping list." );
         }
+
+        mDetector = new GestureDetectorCompat( this, new GestureListener( this, ) );
     }
 
     @Override
@@ -126,6 +131,12 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event){
+        this.mDetector.onTouchEvent(event);
+        return super.onTouchEvent(event);
     }
 
     public void onCreateShoppingList( final View sView, final String shop ) {
