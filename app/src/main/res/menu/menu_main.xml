@@ -7,13 +7,6 @@
         android:orderInCategory="100"
         android:title="@string/action_settings"
         app:showAsAction="never" />
-
-    <item
-        android:id="@+id/action_main_recommend"
-        android:title="@string/action_recommend"
-        android:orderInCategory="100"
-        app:showAsAction="never" />
-
     <item
         android:id="@+id/action_main_about"
         android:title="@string/action_about"

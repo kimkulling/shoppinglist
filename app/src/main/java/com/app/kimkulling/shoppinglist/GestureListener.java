@@ -1,31 +1,48 @@
 package com.app.kimkulling.shoppinglist;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.support.v4.view.GestureDetectorCompat;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
+import android.view.View;
 import android.widget.ListView;
 
 /**
  * Created by kimku_000 on 09.04.2016.
  */
-public class GestureListener extends GestureDetector.SimpleOnGestureListener {
+public class GestureListener extends GestureDetector.SimpleOnGestureListener  implements
+        View.OnTouchListener {
     private static final String TAG = "GestureListener";
     private Activity mParentActivity;
     private ListView mLV;
-    private DatabaseAccess mDBAccess;
+    private GestureDetectorCompat mGestureDetector;
+    private ShoppingListControl mShoppingListControl;
 
-    public GestureListener( Activity parentActivity, ListView lv, DatabaseAccess dbAccess ) {
+    public GestureListener( Activity parentActivity, ListView lv, ShoppingListControl control ) {
         super();
 
         mParentActivity = parentActivity;
         mLV = lv;
-        mDBAccess = dbAccess;
+        mGestureDetector = null;
+        mShoppingListControl = control;
+    }
+
+    public void setGestureDetector( GestureDetectorCompat gd ) {
+        mGestureDetector = gd;
     }
 
     @Override
     public boolean onDown( MotionEvent event ) {
         Log.d(TAG,"onDown: " + event.toString());
+        final int position = mLV.pointToPosition( Math.round(event.getX()), Math.round(event.getY()));
+        final String shop = (String) mLV.getItemAtPosition( position );
+        boolean result = false;
+        if ( mShoppingListControl.getDatabaseAccess().hasShoppingList( shop ) ) {
+            Log.d( TAG, "clicked on" + shop );
+            mShoppingListControl.onCreateShoppingList( shop );
+        }
         return true;
     }
 
@@ -36,11 +53,21 @@ public class GestureListener extends GestureDetector.SimpleOnGestureListener {
         final int position = mLV.pointToPosition( Math.round(e1.getX()), Math.round(e1.getY()));
         final String shop = (String) mLV.getItemAtPosition( position );
         boolean result = false;
-        if ( mDBAccess.hasShoppingList( shop ) ) {
-            mDBAccess.deleteShoppingList( shop );
+        DatabaseAccess dbAccess = mShoppingListControl.getDatabaseAccess();
+        if ( null == dbAccess ) {
+            return false;
+        }
+
+        if ( dbAccess.hasShoppingList( shop ) ) {
+            dbAccess.deleteShoppingList( shop );
             result = true;
         }
 
-        return result;
+        return super.onFling( e1, e2, velocityX, velocityY );
+    }
+
+    @Override
+    public boolean onTouch( View v, MotionEvent event ) {
+        return mGestureDetector.onTouchEvent(event);
     }
 }

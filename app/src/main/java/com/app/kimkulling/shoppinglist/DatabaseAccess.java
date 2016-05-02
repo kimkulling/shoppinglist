@@ -106,6 +106,9 @@ public class DatabaseAccess {
     }
 
     public boolean hasShoppingList( final String shopName ) {
+        if ( null == shopName ) {
+            return false;
+        }
         if (0 == shopName.length()) {
             return false;
         }
@@ -162,7 +165,7 @@ public class DatabaseAccess {
         }
 
         String sql = "DELETE FROM " + SLDatabaseHelper.SHL_TABLE + " WHERE " +
-                SLDatabaseHelper.C_SHOP +"=\n" + shopName + "\"";
+                SLDatabaseHelper.C_SHOP +"=\n" + "\"" +shopName + "\"";
         Log.d( TAG, sql );
         mShoppingListDB.execSQL( sql );
 

@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private ListView mSLView;
     private ArrayAdapter<String> mSLAdapter;
     private GestureDetectorCompat mDetector;
+    private ShoppingListControl mShoppingListControl;
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -54,50 +55,43 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        mDBAccess = new DatabaseAccess( this, true );
+        mShoppingListControl = new ShoppingListControl( this, mDBAccess );
+
         mNewListButton = (Button) findViewById( R.id.new_list_button );
         mNewListButton.setOnClickListener( ( new View.OnClickListener() {
             public void onClick(View v) {
-                onCreateShoppingList( v, "new" );
+                mShoppingListControl.onCreateShoppingList( "new" );
             }
         } ) );
 
         mSLView = (ListView) findViewById( R.id.shoppingListView );
         if ( null == mSLView ) {
             Log.d( TAG, "Cannot find List view." );
-        } else {
-            mSLView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick( AdapterView<?> parent, final View view, int position,
-                                         long id) {
-                    final String shop = (String) parent.getItemAtPosition( position );
-                    Log.d( TAG, "shop = " + shop );
-                    if ( mDBAccess.hasShoppingList( shop ) ) {
-                        onCreateShoppingList( view, shop );
-                        Log.d( TAG, "items exists." );
-                    }
-                }
-            });
         }
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
 
-        mDBAccess = new DatabaseAccess( this, true );
         if ( mDBAccess.exists( DatabaseAccess.DatabaseType.ShoppingListType)) {
             mDBAccess.open( DatabaseAccess.DatabaseType.ShoppingListType);
             ShoppingItem[] items = mDBAccess.readAllShoppingLists();
-            final ArrayList<String> list = new ArrayList<String>();
-            for ( int i=0; i<items.length; i++ ) {
-                list.add( items[ i ].getShop() );
+            if ( null != items ) {
+                final ArrayList<String> list = new ArrayList<String>();
+                for (int i = 0; i < items.length; i++) {
+                    list.add(items[i].getShop());
+                }
+                mSLAdapter = new ArrayAdapter<String>(this, R.layout.shoppinglist_text_view, list);
+                mSLView.setAdapter(mSLAdapter);
             }
-            mSLAdapter = new ArrayAdapter<String>(this, R.layout.shoppinglist_text_view, list );
-            mSLView.setAdapter( mSLAdapter );
         } else {
             Log.d( TAG, "No database for Shopping list." );
         }
-
-        mDetector = new GestureDetectorCompat( this, new GestureListener( this, ) );
+        GestureListener gestureListener = new GestureListener( this, mSLView, mShoppingListControl );
+        mDetector = new GestureDetectorCompat( this, gestureListener );
+        gestureListener.setGestureDetector( mDetector );
+        mSLView.setOnTouchListener( gestureListener );
     }
 
     @Override
@@ -123,11 +117,9 @@ public class MainActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
-        } else if ( id == R.id.action_main_recommend ) {
-            onRecommend();
-            return true;
         } else if ( id == R.id.action_main_about ) {
             AboutDialog.show( this );
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -137,14 +129,6 @@ public class MainActivity extends AppCompatActivity {
     public boolean onTouchEvent(MotionEvent event){
         this.mDetector.onTouchEvent(event);
         return super.onTouchEvent(event);
-    }
-
-    public void onCreateShoppingList( final View sView, final String shop ) {
-        Log.d(TAG, "onCreateShoppingList");
-        Intent intent = new Intent( this, ShoppingListActivity.class );
-        intent.putExtra( "shop", shop );
-        startActivity(intent );
-        Log.d( TAG, "new Intent to create ShoppingListActivity" );
     }
 
     @Override
@@ -185,9 +169,5 @@ public class MainActivity extends AppCompatActivity {
         );
         AppIndex.AppIndexApi.end(client, viewAction);
         client.disconnect();
-    }
-    
-    private void onRecommend() {
-        // // TODO: 22.02.2016 !
     }
 }

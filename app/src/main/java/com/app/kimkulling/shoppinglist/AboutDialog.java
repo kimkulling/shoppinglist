@@ -35,7 +35,7 @@ public class AboutDialog {
 
         new AlertDialog.Builder( parentActivity )
                 .setTitle("About")
-                .setCancelable( true )
+                .setCancelable( false )
                 .setIcon( null )
                 .setPositiveButton( "OK", null )
                 .setView( about )

@@ -99,6 +99,7 @@ public class ShoppingListActivity extends AppCompatActivity {
 
         String shopName = mShoppingListShop.getText().toString();
         String items = mShoppingListEdit.getText().toString();
+        items = ShoppingItem.processItems( items );
         if ( !shopName.equals( mShopCache ) ) {
             // create a new shopping list entry
             Log.d(TAG, "storeShoppingList: new " + shopName + " != " + mShopCache );

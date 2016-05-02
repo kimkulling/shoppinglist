@@ -27,4 +27,31 @@ public class ShoppingItem {
     String getItems() {
         return mItems;
     }
+
+    static public String processItems( String items ) {
+        if ( 0 == items.length() ) {
+            return items;
+        }
+
+        String sevItems[] = items.split( "," ), proceededItems[] = null;
+        if ( null == sevItems ) {
+            String spaceItems[] = items.split( " " );
+            if ( null == spaceItems ) {
+                return items;
+            } else {
+                proceededItems = spaceItems;
+            }
+        } else {
+            proceededItems = sevItems;
+        }
+
+        String newItems = new String();
+        for ( int i=0; i<proceededItems.length; i++ ) {
+            String currentItem = proceededItems[ i ];
+            currentItem = currentItem.trim() + "\n";
+            newItems = newItems + currentItem;
+        }
+
+        return newItems;
+    }
 }
