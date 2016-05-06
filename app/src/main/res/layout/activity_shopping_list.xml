@@ -31,17 +31,18 @@
                 style="?android:attr/buttonStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="59dp"
-                android:text="Save"
-                android:id="@+id/saveListBtn"
+                android:text="Back"
+                android:id="@+id/backListBtn"
                 android:gravity="left|top" />
 
             <Button
                 style="?android:attr/buttonStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="59dp"
-                android:text="Cancel"
-                android:id="@+id/cancelListBtn"
+                android:text="Save"
+                android:id="@+id/saveListBtn"
                 android:gravity="left|top" />
+
 
         </LinearLayout>
         <EditText

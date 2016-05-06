@@ -94,6 +94,10 @@ public class MainActivity extends AppCompatActivity {
         mSLView.setOnTouchListener( gestureListener );
     }
 
+    public ArrayAdapter<String> getLVAdapter() {
+        return mSLAdapter;
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();

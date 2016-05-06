@@ -14,8 +14,8 @@ public class ShoppingListActivity extends AppCompatActivity {
     private static final String EditFiledId = "shopping_list_editText";
 
     DatabaseAccess mDBAccess;
+    Button mBackButton;
     Button mSaveButton;
-    Button mCancelButton;
     EditText mShoppingListShop;
     EditText mShoppingListEdit;
     String mItemCache;
@@ -37,13 +37,13 @@ public class ShoppingListActivity extends AppCompatActivity {
             }));
         }
 
-        mCancelButton = (Button) findViewById( R.id.cancelListBtn );
-        if ( null == mCancelButton ) {
+        mBackButton = (Button) findViewById( R.id.backListBtn );
+        if ( null == mBackButton ) {
             Log.d( TAG, "Cannot find cancel button" );
         } else {
-            mCancelButton.setOnClickListener((new View.OnClickListener() {
+            mBackButton.setOnClickListener((new View.OnClickListener() {
                 public void onClick(View v) {
-                    onCancelButton(v);
+                    onBackButton(v);
                 }
             }));
         }
@@ -111,17 +111,17 @@ public class ShoppingListActivity extends AppCompatActivity {
         }
     }
 
+    private void onBackButton( final View sView ) {
+        Log.d(TAG, "onBackButton");
+        backToMainActivity();
+        Log.d( TAG, "new Intent to create MainActivity" );
+    }
+
     private void onSaveButton( final View sView ) {
         Log.d(TAG, "onSaveButton");
         storeShoppingList();
         backToMainActivity();
         Log.d(TAG, "new Intent to create MainActivity");
-    }
-
-    private void onCancelButton( final View sView ) {
-        Log.d(TAG, "onCancelButton");
-        backToMainActivity();
-        Log.d( TAG, "new Intent to create MainActivity" );
     }
 
     private void clearCache() {
