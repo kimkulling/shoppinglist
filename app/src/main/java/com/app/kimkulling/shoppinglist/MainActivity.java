@@ -32,11 +32,6 @@ public class MainActivity extends AppCompatActivity {
     private ArrayAdapter<String> mSLAdapter;
     private GestureDetectorCompat mDetector;
     private ShoppingListControl mShoppingListControl;
-
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
     private GoogleApiClient client;
 
     @Override
@@ -70,8 +65,6 @@ public class MainActivity extends AppCompatActivity {
             Log.d( TAG, "Cannot find List view." );
         }
 
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
 
         if ( mDBAccess.exists( DatabaseAccess.DatabaseType.ShoppingListType)) {
@@ -116,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        final int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
