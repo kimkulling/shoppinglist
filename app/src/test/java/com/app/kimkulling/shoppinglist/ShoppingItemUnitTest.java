@@ -14,11 +14,4 @@ public class ShoppingItemUnitTest {
         String proceededItems = ShoppingItem.processItems( items );
         assertEquals( "a\nb\nc\nd\n", proceededItems );
     }
-
-    @Test
-    public void separateStringBySpace() throws Exception {
-        String items = new String("a b c d" );
-        String proceededItems = ShoppingItem.processItems( items );
-        assertEquals( "a\nb\nc\nd\n", proceededItems );
-    }
 }

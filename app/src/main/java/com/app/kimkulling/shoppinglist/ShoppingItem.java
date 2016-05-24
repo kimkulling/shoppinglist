@@ -59,7 +59,7 @@ public class ShoppingItem {
             return items;
         }
 
-        String sep[] = { ",", " " }, proceededItems[] = null;
+        String sep[] = { "," }, proceededItems[] = null;
         String regexp[] = { ",", "\\s+" };
 
         for ( int i=0; i<sep.length; i++) {
