@@ -98,6 +98,5 @@ public class GestureListener extends GestureDetector.SimpleOnGestureListener imp
         mIsDown = false;
         mIsOnFling = false;
         mSelectedShop = "";
-
     }
 }

@@ -41,12 +41,12 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 onSendShoppingList();
             }
-        });
+        });*/
 
         mDBAccess = new DatabaseAccess( this, true );
         mShoppingListControl = new ShoppingListControl( this, mDBAccess );
@@ -83,10 +83,6 @@ public class MainActivity extends AppCompatActivity {
         mDetector = new GestureDetectorCompat( this, gestureListener );
         gestureListener.setGestureDetector( mDetector );
         mSLView.setOnTouchListener( gestureListener );
-    }
-
-    public ArrayAdapter<String> getLVAdapter() {
-        return mSLAdapter;
     }
 
     @Override
@@ -163,7 +159,11 @@ public class MainActivity extends AppCompatActivity {
         client.disconnect();
     }
 
-    void onSendShoppingList() {
+    public ArrayAdapter<String> getLVAdapter() {
+        return mSLAdapter;
+    }
+
+    private void onSendShoppingList() {
         Log.d( TAG, "onSendShoppingList." );
     }
 }
