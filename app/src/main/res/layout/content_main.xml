@@ -23,12 +23,11 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New List"
+            android:text="@string/main_act_new_shoppinglist"
             android:id="@+id/new_list_button"
             android:layout_alignTop="@+id/listView"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:onClick="onCreateShoppingList"/>
+            android:layout_alignParentStart="true" />
 
         <ListView
             android:layout_width="wrap_content"

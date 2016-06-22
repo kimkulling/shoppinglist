@@ -15,13 +15,14 @@ import java.util.ArrayList;
 public class GestureListener extends GestureDetector.SimpleOnGestureListener implements
         View.OnTouchListener {
     private static final String TAG = "GestureListener";
-    private ListView mLV;
+
+    private final ListView mLV;
     private GestureDetectorCompat mGestureDetector;
     private ShoppingListControl mShoppingListControl;
-    MainActivity mParentActivity;
-    boolean mIsDown;
-    boolean mIsOnFling;
-    String mSelectedShop;
+    private final MainActivity mParentActivity;
+    private boolean mIsDown;
+    private boolean mIsOnFling;
+    private String mSelectedShop;
 
     public GestureListener( MainActivity parent, ListView lv, ShoppingListControl control ) {
         super();

@@ -9,8 +9,8 @@ import android.util.Log;
  */
 public class ShoppingListControl {
     private static final String TAG = "ShoppingListControl";
-    private Activity mParentActivity;
-    private DatabaseAccess mDBAccess;
+    private final Activity mParentActivity;
+    private final DatabaseAccess mDBAccess;
 
     public ShoppingListControl( Activity parentActivity, DatabaseAccess dbAccess ) {
         mParentActivity = parentActivity;

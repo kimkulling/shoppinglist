@@ -13,10 +13,10 @@ import java.io.File;
  */
 public class DatabaseAccess {
     private static final String TAG = "DatabaseAccess";
-    SLDatabaseHelper mSLDBHelper;
-    SQLiteDatabase mShoppingListDB;
-    Context mContext;
-    boolean mReadonly;
+    private final SLDatabaseHelper mSLDBHelper;
+    private SQLiteDatabase mShoppingListDB;
+    private final Context mContext;
+    private final boolean mReadonly;
 
     public enum DatabaseType {
         ShoppingListType
@@ -92,6 +92,7 @@ public class DatabaseAccess {
 
         if ( 0 == items.length() ) {
             Log.d( TAG, "items are empty." );
+            return -1;
         }
 
         ContentValues newItems = new ContentValues();
@@ -124,6 +125,7 @@ public class DatabaseAccess {
                 null, null, null);
         if ( null != cursor ) {
             int numLists = cursor.getCount();
+            cursor.close();
             if (numLists > 0) {
                 found = true;
             }
@@ -193,6 +195,7 @@ public class DatabaseAccess {
                     shItem = new ShoppingItem( shopName, items );
                 }
             }
+            cursor.close();
         }
 
         return shItem;

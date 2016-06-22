@@ -7,7 +7,7 @@ import android.provider.BaseColumns;
 import android.util.Log;
 
 /**
- *  Helper class for SQL access.
+ *  Helper class for SQLLite access.
  */
 public class SLDatabaseHelper extends SQLiteOpenHelper {
     static final String TAG       = "SLDatabaseHelper";
@@ -17,13 +17,22 @@ public class SLDatabaseHelper extends SQLiteOpenHelper {
     static final String C_SHOP    = "shop";
     static final String C_LIST    = "item";
     static final int DB_VERSION   = 1;
-    Context mCtx;
 
+    private final Context mCtx;
+
+    /**
+     * The class constructor
+     * @param ctx The application context.
+     */
     public SLDatabaseHelper(Context ctx) {
         super( ctx, DB_NAME, null, DB_VERSION );
         mCtx = ctx;
     }
 
+    /**
+     * The onCreate-callback, will initially create the table
+     * @param db    The database instance
+     */
     @Override
     public void onCreate( SQLiteDatabase db ) {
         try {
@@ -36,6 +45,12 @@ public class SLDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    /**
+     *
+     * @param db
+     * @param oldVersion
+     * @param newVersion
+     */
     @Override
     public void onUpgrade( SQLiteDatabase db, int oldVersion, int newVersion ) {
         String sql = "drop table if exists " + SHL_TABLE;

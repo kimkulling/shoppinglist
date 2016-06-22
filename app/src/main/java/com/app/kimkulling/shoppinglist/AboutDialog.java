@@ -37,7 +37,7 @@ public class AboutDialog {
                 .setTitle("About")
                 .setCancelable( false )
                 .setIcon( null )
-                .setPositiveButton( "OK", null )
+                .setPositiveButton( "Ok", null )
                 .setView( about )
                 .show();
     }

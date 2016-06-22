@@ -13,13 +13,13 @@ public class ShoppingListActivity extends AppCompatActivity {
     private static final String TAG         = "ShoppingListActivity";
     private static final String EditFiledId = "shopping_list_editText";
 
-    DatabaseAccess mDBAccess;
-    Button mBackButton;
-    Button mSaveButton;
-    EditText mShoppingListShop;
-    EditText mShoppingListEdit;
-    String mItemCache;
-    String mShopCache;
+    private DatabaseAccess mDBAccess;
+    private Button mBackButton;
+    private Button mSaveButton;
+    private EditText mShoppingListShop;
+    private EditText mShoppingListEdit;
+    private String mItemCache;
+    private String mShopCache;
 
     @Override
     protected void onCreate( Bundle savedInstanceState ) {

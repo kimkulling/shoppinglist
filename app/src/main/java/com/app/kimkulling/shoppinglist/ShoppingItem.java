@@ -4,8 +4,8 @@ package com.app.kimkulling.shoppinglist;
  *  This class is used to define a bundle of shopping items.
  */
 public class ShoppingItem {
-    String mShop;
-    String mItems;
+    private String mShop;
+    private String mItems;
 
     /**
      * The class constructor.
@@ -64,8 +64,7 @@ public class ShoppingItem {
 
         for ( int i=0; i<sep.length; i++) {
             if ( items.contains( sep[ i ] ) ) {
-                String sepItems[] = items.split(regexp[ i ] );
-                proceededItems = sepItems;
+                proceededItems = items.split(regexp[ i ] );
                 break;
             }
         }
