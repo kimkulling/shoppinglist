@@ -16,7 +16,7 @@ import android.widget.TextView;
 public class AboutDialog {
     public static void show( Activity parentActivity ) {
         SpannableString aboutText = new SpannableString( "Version "
-                + VersionInfo.version( parentActivity )
+                + VersionInfo.version()
                 +"\n\n" + parentActivity.getString( R.string.dlg_text_about ) );
         View about;
         TextView tvAbout;
