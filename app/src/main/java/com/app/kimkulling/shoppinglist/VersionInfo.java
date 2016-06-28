@@ -8,11 +8,10 @@ import android.content.pm.PackageManager;
  */
 public class VersionInfo {
     public static String version() {
-        //try {
-            return BuildConfig.VERSION_NAME;
-            //return ctx.getPackageManager().getPackageInfo( ctx.getPackageName(),0).versionName;
-        //} catch ( PackageManager.NameNotFoundException e ) {
-        //    return "Unknown";
-        //}
+        return BuildConfig.VERSION_NAME;
+    }
+
+    public static int versionCode() {
+        return BuildConfig.VERSION_CODE;
     }
 }

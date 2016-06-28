@@ -2,6 +2,7 @@ package com.app.kimkulling.shoppinglist;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.GestureDetectorCompat;
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayAdapter<String> mSLAdapter;
     private GestureDetectorCompat mDetector;
     private ShoppingListControl mShoppingListControl;
+    private CoordinatorLayout mCoordinatorLayout;
     private GoogleApiClient client;
 
     @Override
@@ -39,23 +41,17 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                onSendShoppingList();
-            }
-        });*/
-
-        mDBAccess = new DatabaseAccess( this, true );
-        mShoppingListControl = new ShoppingListControl( this, mDBAccess );
-
-        mNewListButton = (Button) findViewById( R.id.new_list_button );
-        mNewListButton.setOnClickListener( ( new View.OnClickListener() {
-            public void onClick(View v) {
                 mShoppingListControl.onCreateShoppingList( "new" );
             }
-        } ) );
+        });
 
+        mCoordinatorLayout = (CoordinatorLayout) findViewById( R.id.coordinatorLayout );
+        MessageHandler.create( mCoordinatorLayout );
+        mDBAccess = new DatabaseAccess( this, true );
+        mShoppingListControl = new ShoppingListControl( this, mDBAccess );
         mSLView = (ListView) findViewById( R.id.shoppingListView );
         if ( null == mSLView ) {
             Log.d( TAG, "Cannot find List view." );
@@ -159,6 +155,10 @@ public class MainActivity extends AppCompatActivity {
 
     public ArrayAdapter<String> getLVAdapter() {
         return mSLAdapter;
+    }
+
+    public void showMessage( final int messageId ) {
+        MessageHandler.instance().showMessage( mCoordinatorLayout, messageId );
     }
 
     private void onSendShoppingList() {

@@ -20,6 +20,7 @@ public class ShoppingListActivity extends AppCompatActivity {
     private EditText mShoppingListEdit;
     private String mItemCache;
     private String mShopCache;
+    private MainActivity mParentActivity;
 
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
@@ -88,7 +89,7 @@ public class ShoppingListActivity extends AppCompatActivity {
 
     private void backToMainActivity() {
         Intent intent = new Intent( this, MainActivity.class );
-        startActivity(intent);
+        startActivity( intent );
     }
 
     private void storeShoppingList() {
@@ -104,6 +105,7 @@ public class ShoppingListActivity extends AppCompatActivity {
             // create a new shopping list entry
             Log.d(TAG, "storeShoppingList: new " + shopName + " != " + mShopCache );
             mDBAccess.addNewShoppingList(shopName, items);
+            mParentActivity.showMessage( R.string.msg_add_shop );
         } else {
             // Modify an existing shopping list
             Log.d(TAG, "storeShoppingList: modify" );

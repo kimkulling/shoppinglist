@@ -22,12 +22,22 @@ public class DatabaseAccess {
         ShoppingListType
     }
 
+    /**
+     * The class constructor.
+     * @param ctx       App context
+     * @param readonly  true for read only access.
+     */
     public DatabaseAccess( Context ctx, boolean readonly  ) {
         mContext = ctx;
         mSLDBHelper = new SLDatabaseHelper( ctx );
         mReadonly = readonly;
     }
 
+    /**
+     * Will return true, if the database exists
+     * @param type  The type of the database.
+     * @return      true for database exists.
+     */
     public boolean exists( DatabaseType type ) {
         if ( null == mContext ) {
             return false;

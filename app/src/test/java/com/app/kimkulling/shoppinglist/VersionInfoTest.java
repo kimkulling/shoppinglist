@@ -13,5 +13,11 @@ public class VersionInfoTest {
         final String v = VersionInfo.version();
         assertEquals( "1.0.1", v );
     }
+
+    @Test
+    public void getVersionCodeTest() throws Exception {
+        final int v = VersionInfo.versionCode();
+        assertEquals( 3, v );
+    }
 }
 

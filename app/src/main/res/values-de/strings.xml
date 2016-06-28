@@ -9,4 +9,6 @@
     <string name="dlg_text_about">\nDie ShoppingList App!\nEine einfach Einkaufsliste für das Smartphone..</string>
     <string name="shoplist_act_btn_back">Zurück</string>
     <string name="shoplist_act_btn_save">Speichern</string>
+    <string name="msg_add_shop">Neue Einkaufsliste wurde hinzugefügt...</string>
+    <string name="msg_deleting_shop">Einkaufsliste wurde gelöscht...</string>
 </resources>

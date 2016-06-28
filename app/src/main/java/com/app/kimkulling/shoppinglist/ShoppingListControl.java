@@ -21,16 +21,11 @@ public class ShoppingListControl {
         Log.d(TAG, "onCreateShoppingList");
         Intent intent = new Intent( mParentActivity, ShoppingListActivity.class );
         intent.putExtra( "shop", shop );
-        mParentActivity.startActivity(intent );
+        mParentActivity.startActivity( intent );
         Log.d( TAG, "new Intent to create ShoppingListActivity" );
     }
 
     public DatabaseAccess getDatabaseAccess() {
         return mDBAccess;
     }
-
-    public void onAboutDlg() {
-
-    }
-
 }

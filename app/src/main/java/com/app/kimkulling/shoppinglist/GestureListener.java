@@ -86,6 +86,7 @@ public class GestureListener extends GestureDetector.SimpleOnGestureListener imp
             }
         }
         resetGestureStates();
+        mParentActivity.showMessage( R.string.msg_deleting_shop );
 
         return super.onFling( e1, e2, velocityX, velocityY );
     }
