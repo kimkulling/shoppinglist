@@ -160,8 +160,4 @@ public class MainActivity extends AppCompatActivity {
     public void showMessage( final int messageId ) {
         MessageHandler.instance().showMessage( mCoordinatorLayout, messageId );
     }
-
-    private void onSendShoppingList() {
-        Log.d( TAG, "onSendShoppingList." );
-    }
 }

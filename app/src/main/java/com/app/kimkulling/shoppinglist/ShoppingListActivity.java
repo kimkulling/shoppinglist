@@ -105,8 +105,8 @@ public class ShoppingListActivity extends AppCompatActivity {
             // create a new shopping list entry
             Log.d(TAG, "storeShoppingList: new " + shopName + " != " + mShopCache );
             mDBAccess.addNewShoppingList(shopName, items);
-            mParentActivity.showMessage( R.string.msg_add_shop );
         } else {
+            //mParentActivity.showMessage( R.string.msg_add_shop );
             // Modify an existing shopping list
             Log.d(TAG, "storeShoppingList: modify" );
             mDBAccess.modifyShoppingLists( shopName, items );
