@@ -11,7 +11,7 @@ public class VersionInfoTest {
     @Test
     public void getVersionStringTest() throws Exception {
         final String v = VersionInfo.version();
-        assertEquals( "1.0.1", v );
+        assertEquals( "1.0.2", v );
     }
 
     @Test

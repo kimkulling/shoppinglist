@@ -1,5 +1,6 @@
 package com.app.kimkulling.shoppinglist;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
@@ -77,6 +78,20 @@ public class MainActivity extends AppCompatActivity {
         mDetector = new GestureDetectorCompat( this, gestureListener );
         gestureListener.setGestureDetector( mDetector );
         mSLView.setOnTouchListener( gestureListener );
+
+        Intent intent = getIntent();
+        if ( null != intent ) {
+            if ( null != intent.getExtras() ) {
+                String msg = intent.getExtras().getString("message");
+                if (0 != msg.length()) {
+                    if (msg.equals("new")) {
+                        showMessage(R.string.msg_add_shop);
+                    } else if (msg.equals("modify")) {
+                        showMessage(R.string.msg_modify_shop);
+                    }
+                }
+            }
+        }
     }
 
     @Override

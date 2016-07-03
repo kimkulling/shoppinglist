@@ -9,6 +9,18 @@ import static org.junit.Assert.assertEquals;
  */
 public class ShoppingItemUnitTest {
     @Test
+    public void accessShop() throws Exception {
+        ShoppingItem theItem = new ShoppingItem( "edeka", "wurst" );
+        assertEquals( theItem.getShop(), "edeka" );
+    }
+
+    @Test
+    public void accessItems() throws Exception {
+        ShoppingItem theItem = new ShoppingItem( "edeka", "wurst" );
+        assertEquals( theItem.getItems(), "wurst" );
+    }
+
+    @Test
     public void separateStringByComma() throws Exception {
         String items = new String("a, b, c, d" );
         String proceededItems = ShoppingItem.processItems( items );

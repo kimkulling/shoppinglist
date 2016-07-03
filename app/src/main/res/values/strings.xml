@@ -8,6 +8,7 @@
     <string name="dlg_text_about">\nThe ShoppingList App!\nAn app to manage your shopping list.</string>
     <string name="shoplist_act_btn_back">Back</string>
     <string name="shoplist_act_btn_save">Save</string>
-    <string name="msg_add_shop">New shoppinglist was added..</string>
-    <string name="msg_deleting_shop">Shoppinglist was deleted..</string>
+    <string name="msg_add_shop">New shoppinglist was added...</string>
+    <string name="msg_modify_shop">Shoppinglist was modified...</string>
+    <string name="msg_deleting_shop">Shoppinglist was deleted...</string>
 </resources>

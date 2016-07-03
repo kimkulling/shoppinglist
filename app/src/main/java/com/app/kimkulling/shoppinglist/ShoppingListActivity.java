@@ -87,8 +87,11 @@ public class ShoppingListActivity extends AppCompatActivity {
         mDBAccess.close();
     }
 
-    private void backToMainActivity() {
+    private void backToMainActivity( final String message ) {
         Intent intent = new Intent( this, MainActivity.class );
+        if ( 0 != message.length()) {
+            intent.putExtra( "message", message );
+        }
         startActivity( intent );
     }
 
@@ -104,26 +107,26 @@ public class ShoppingListActivity extends AppCompatActivity {
         if ( !shopName.equals( mShopCache ) ) {
             // create a new shopping list entry
             Log.d(TAG, "storeShoppingList: new " + shopName + " != " + mShopCache );
-            mDBAccess.addNewShoppingList(shopName, items);
+            mDBAccess.addNewShoppingList( shopName, items );
+            backToMainActivity( "new" );
         } else {
             //mParentActivity.showMessage( R.string.msg_add_shop );
             // Modify an existing shopping list
             Log.d(TAG, "storeShoppingList: modify" );
             mDBAccess.modifyShoppingLists( shopName, items );
+            backToMainActivity( "modify" );
         }
     }
 
     private void onBackButton( final View sView ) {
         Log.d(TAG, "onBackButton");
-        backToMainActivity();
+        backToMainActivity( "" );
         Log.d( TAG, "new Intent to create MainActivity" );
     }
 
     private void onSaveButton( final View sView ) {
         Log.d(TAG, "onSaveButton");
         storeShoppingList();
-        backToMainActivity();
-        Log.d(TAG, "new Intent to create MainActivity");
     }
 
     private void clearCache() {
