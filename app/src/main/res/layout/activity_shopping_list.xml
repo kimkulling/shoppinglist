@@ -43,7 +43,6 @@
                 android:id="@+id/saveListBtn"
                 android:gravity="start|top" />
 
-
         </LinearLayout>
         <EditText
             android:layout_width="match_parent"
@@ -67,6 +66,7 @@
             android:gravity="top"
             android:inputType="text|textMultiLine"
             android:scrollIndicators="right|top"
+            android:hint="@string/enter_items"
             android:textStyle="normal" />
     </LinearLayout>
 </RelativeLayout>

@@ -9,6 +9,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+/**
+ *
+ */
 public class ShoppingListActivity extends AppCompatActivity {
     private static final String TAG         = "ShoppingListActivity";
     private static final String EditFiledId = "shopping_list_editText";
@@ -20,7 +23,6 @@ public class ShoppingListActivity extends AppCompatActivity {
     private EditText mShoppingListEdit;
     private String mItemCache;
     private String mShopCache;
-    private MainActivity mParentActivity;
 
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
@@ -63,21 +65,22 @@ public class ShoppingListActivity extends AppCompatActivity {
 
         final String shopName = getIntent().getExtras().getString( "shop" );
         clearCache();
-        try {
-            if (!shopName.equals("none")) {
-                ShoppingItem item = mDBAccess.getShoppingListByShop(shopName);
-                if (null != item) {
-                    mItemCache = item.getItems();
-                    mShopCache = item.getShop();
-                    mShoppingListShop.setText(mShopCache, TextView.BufferType.EDITABLE);
-                    mShoppingListEdit.setText(mItemCache, TextView.BufferType.EDITABLE);
+        if ( null != shopName ) {
+            try {
+                if (!shopName.equals("none")) {
+                    ShoppingItem item = mDBAccess.getShoppingListByShop(shopName);
+                    if (null != item) {
+                        mItemCache = item.getItems();
+                        mShopCache = item.getShop();
+                        mShoppingListShop.setText(mShopCache, TextView.BufferType.EDITABLE);
+                        mShoppingListEdit.setText(mItemCache, TextView.BufferType.EDITABLE);
+                    }
                 }
+            } catch (NullPointerException e) {
+                Log.e(TAG, "Null pointer exception:");
+                Log.e(TAG, e.getStackTrace().toString());
             }
-        } catch( NullPointerException e ) {
-            Log.e( TAG, "Null pointer exception:" );
-            Log.e( TAG, e.getStackTrace().toString() );
         }
-
         Log.d( TAG, "Shop-Cache = " + mShopCache + ", ItemsCache = " + mItemCache );
     }
 
@@ -110,7 +113,6 @@ public class ShoppingListActivity extends AppCompatActivity {
             mDBAccess.addNewShoppingList( shopName, items );
             backToMainActivity( "new" );
         } else {
-            //mParentActivity.showMessage( R.string.msg_add_shop );
             // Modify an existing shopping list
             Log.d(TAG, "storeShoppingList: modify" );
             mDBAccess.modifyShoppingLists( shopName, items );

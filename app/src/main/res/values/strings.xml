@@ -4,6 +4,7 @@
     <string name="action_recommend">Recommend</string>
     <string name="main_act_new_shoppinglist">New list</string>
     <string name="enter_shop_name">Shop Name</string>
+    <string name="enter_items">Enter items</string>
     <string name="action_about">About</string>
     <string name="dlg_text_about">\nThe ShoppingList App!\nAn app to manage your shopping list.</string>
     <string name="shoplist_act_btn_back">Back</string>
