@@ -110,12 +110,12 @@ public class ShoppingListActivity extends AppCompatActivity {
         if ( !shopName.equals( mShopCache ) ) {
             // create a new shopping list entry
             Log.d(TAG, "storeShoppingList: new " + shopName + " != " + mShopCache );
-            mDBAccess.addNewShoppingList( shopName, items );
+            mDBAccess.addNewShoppingList( shopName, items, 1 );
             backToMainActivity( "new" );
         } else {
             // Modify an existing shopping list
             Log.d(TAG, "storeShoppingList: modify" );
-            mDBAccess.modifyShoppingLists( shopName, items );
+            mDBAccess.modifyShoppingLists( shopName, items, 1 );
             backToMainActivity( "modify" );
         }
     }

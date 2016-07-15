@@ -89,7 +89,7 @@ public class DatabaseAccess {
         return res;
     }
 
-    public long addNewShoppingList( final String shop, final String items ) {
+    public long addNewShoppingList( final String shop, final String items, int category ) {
         if ( mShoppingListDB == null ) {
             Log.d( TAG, "Cannot insert item, no database object." );
             return -1;
@@ -106,9 +106,31 @@ public class DatabaseAccess {
         }
 
         ContentValues newItems = new ContentValues();
-        newItems.put( SLDatabaseHelper.C_SHOP, shop );
-        newItems.put(SLDatabaseHelper.C_LIST, items);
+        newItems.put( SLDatabaseHelper.C_SH_SHOP, shop );
+        newItems.put( SLDatabaseHelper.C_SH_LIST, items);
+        newItems.put( SLDatabaseHelper.C_SH_CATID, category );
         long insertId = mShoppingListDB.insert(SLDatabaseHelper.SHL_TABLE, null, newItems);
+        if ( -1 == insertId ) {
+            Log.d( TAG, "Error while inserting values." );
+        }
+
+        return insertId;
+    }
+
+    public long addNewShoppingCategory( final String categoryName ) {
+        if ( mShoppingListDB == null ) {
+            Log.d( TAG, "Cannot insert item, no database object." );
+            return -1;
+        }
+
+        if ( 0 == categoryName.length() ) {
+            Log.e( TAG, "Category name is empty" );
+            return -1;
+        }
+
+        ContentValues newItems = new ContentValues();
+        newItems.put( SLDatabaseHelper.C_SHCAT_NAME, categoryName );
+        long insertId = mShoppingListDB.insert(SLDatabaseHelper.C_SHCAT_TABLE, null, newItems);
         if ( -1 == insertId ) {
             Log.d( TAG, "Error while inserting values." );
         }
@@ -126,10 +148,10 @@ public class DatabaseAccess {
 
         boolean found = false;
         String columns[] = new String[] {
-            SLDatabaseHelper.C_LIST
+            SLDatabaseHelper.C_SH_LIST
         };
 
-        String selection = SLDatabaseHelper.C_SHOP + "=\"" + shopName+"\"";
+        String selection = SLDatabaseHelper.C_SH_SHOP + "=\"" + shopName+"\"";
         Log.d(TAG, selection);
         Cursor cursor = mShoppingListDB.query(SLDatabaseHelper.SHL_TABLE, columns, selection, null,
                 null, null, null);
@@ -144,15 +166,17 @@ public class DatabaseAccess {
         return found;
     }
 
-    public boolean modifyShoppingLists( final String shopName, final String items ) {
+    public boolean modifyShoppingLists( final String shopName, final String items, int category ) {
         Log.d( TAG, "modifyShoppingLists" );
         if ( 0 == shopName.length() ) {
             Log.d( TAG, "Shop name is empty, cannot modify data." );
             return false;
         }
 
-        String sql = "update " + SLDatabaseHelper.SHL_TABLE + " SET " + SLDatabaseHelper.C_LIST + "=\"" +
-                items  +"\"" + " where " + SLDatabaseHelper.C_SHOP + "=\"" + shopName+"\"";
+        String sql = "update " + SLDatabaseHelper.SHL_TABLE + " SET "
+                + SLDatabaseHelper.C_SH_LIST + "=\"" + items + "\""
+                + SLDatabaseHelper.C_SH_CATID + "=" + Integer.toString( category )
+                + " where " + SLDatabaseHelper.C_SH_SHOP + "=\"" + shopName+"\"";
         Log.d( TAG, sql );
 
         mShoppingListDB.execSQL( sql );
@@ -177,7 +201,7 @@ public class DatabaseAccess {
         }
 
         String sql = "DELETE FROM " + SLDatabaseHelper.SHL_TABLE + " WHERE " +
-                SLDatabaseHelper.C_SHOP +"=\n" + "\"" +shopName + "\"";
+                SLDatabaseHelper.C_SH_SHOP +"=\n" + "\"" +shopName + "\"";
         Log.d( TAG, sql );
         mShoppingListDB.execSQL( sql );
 
@@ -189,10 +213,10 @@ public class DatabaseAccess {
             return null;
         }
         String columns[] = new String[] {
-                SLDatabaseHelper.C_LIST
+                SLDatabaseHelper.C_SH_LIST
         };
         ShoppingItem shItem = null;
-        String selection = SLDatabaseHelper.C_SHOP + "=\"" + shopName+"\"";
+        String selection = SLDatabaseHelper.C_SH_SHOP + "=\"" + shopName+"\"";
         Cursor cursor = mShoppingListDB.query( SLDatabaseHelper.SHL_TABLE, columns, selection, null,
                 null, null, null);
         if ( null != cursor ) {
@@ -200,7 +224,7 @@ public class DatabaseAccess {
             if ( numLists  > 0 ) {
                 if ( cursor.moveToFirst() ) {
                     String items = cursor.getString( cursor.getColumnIndex(
-                            SLDatabaseHelper.C_LIST ) );
+                            SLDatabaseHelper.C_SH_LIST) );
                     Log.d( TAG, "shop = " + shopName + " ,items = " + items );
                     shItem = new ShoppingItem( shopName, items );
                 }
@@ -232,9 +256,9 @@ public class DatabaseAccess {
                 int i = 0;
                 do {
                     String shopName = myCursor.getString( myCursor.getColumnIndex(
-                            SLDatabaseHelper.C_SHOP ) );
+                            SLDatabaseHelper.C_SH_SHOP) );
                     String items = myCursor.getString( myCursor.getColumnIndex(
-                            SLDatabaseHelper.C_LIST ) );
+                            SLDatabaseHelper.C_SH_LIST) );
                     Log.d( TAG, "shop = " + shopName + " ,items = " + items );
                     shoppingItems[ i ] = new ShoppingItem( shopName, items );
                     i++;
