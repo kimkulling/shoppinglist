@@ -60,8 +60,8 @@ public class ShoppingListActivity extends AppCompatActivity {
             Log.d(TAG, "Cannot find ShoppingListShop field.");
         }
 
-        mDBAccess = new DatabaseAccess( this, true );
-        mDBAccess.open( DatabaseAccess.DatabaseType.ShoppingListType );
+        mDBAccess = new DatabaseAccess( this );
+        mDBAccess.open();
 
         final String shopName = getIntent().getExtras().getString( "shop" );
         clearCache();

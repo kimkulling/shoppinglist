@@ -10,19 +10,19 @@ import android.util.Log;
  *  Helper class for SQLLite access.
  */
 public class SLDatabaseHelper extends SQLiteOpenHelper {
-    public static final String TAG          = "SLDatabaseHelper";
-    public static final String DB_NAME      = "shoppinglist.db";
-    public static final String SHL_TABLE    = "shoppinglists";
-    public static final String C_SH_ID = BaseColumns._ID;
-    public static final String C_SH_SHOP = "shop";
-    public static final String C_SH_LIST = "item";
-    public static final String C_SH_CATID = "catid";
-    public static final String C_SH_ISIN = "isin";
+    private static final String TAG           = "SLDatabaseHelper";
+    public static final String DB_NAME       = "shoppinglist.db";
+    public static final String SHL_TABLE     = "shoppinglists";
+    private static final String C_SH_ID       = BaseColumns._ID;
+    public static final String C_SH_SHOP     = "shop";
+    public static final String C_SH_LIST     = "item";
+    public static final String C_SH_CATID    = "catid";
+    public static final String C_SH_ISIN     = "isin";
     public static final String C_SH_NUMITEMS = "number";
     public static final String C_SHCAT_TABLE = "shopping_categories";
-    public static final String C_SHCAT_NAME = "category";
+    public static final String C_SHCAT_NAME  = "category";
 
-    public static final int DB_VERSION   = 2;
+    private static final int DB_VERSION   = 2;
 
     private final Context mCtx;
 
@@ -53,7 +53,7 @@ public class SLDatabaseHelper extends SQLiteOpenHelper {
     }
 
     /**
-     *
+     *  The onUpgrade callback, will be called when the version changed.
      * @param db
      * @param oldVersion
      * @param newVersion
@@ -61,20 +61,32 @@ public class SLDatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade( SQLiteDatabase db, int oldVersion, int newVersion ) {
         if ( 1 == oldVersion ) {
-            String sql = "drop table if exists " + SHL_TABLE;
-            executeSQL(db, sql);
-            Log.d(TAG, " Update database " + DB_NAME + ", old database will be removed.");
+            deleteTable( db, SHL_TABLE );
+            Log.d( TAG, " Update database " + DB_NAME + ", old database will be removed." );
         }
 
         onCreate( db );
     }
 
-    private void executeSQL( SQLiteDatabase db, String sql ) {
+    private boolean deleteTable( SQLiteDatabase db, final String table ) {
+        final String sql = "drop table if exists " + table;
+        final boolean ok = executeSQL( db, sql );
+        if ( !ok ) {
+            Log.e( TAG, "Error while deleting table " + table + "." );
+        }
+        return ok;
+    }
+
+    private boolean executeSQL( SQLiteDatabase db, String sql ) {
+        boolean ok = true;
         Log.d( TAG, " Perform SQL query: " + sql );
         try {
             db.execSQL(sql);
         } catch(  Exception ex ) {
             Log.d( TAG, "Exception " + ex.toString() + " catched." );
+            ok = false;
         }
+
+        return ok;
     }
 }

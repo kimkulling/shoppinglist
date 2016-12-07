@@ -16,62 +16,46 @@ public class DatabaseAccess {
     private final SLDatabaseHelper mSLDBHelper;
     private SQLiteDatabase mShoppingListDB;
     private final Context mContext;
-    private final boolean mReadonly;
-
-    public enum DatabaseType {
-        ShoppingListType
-    }
 
     /**
      * The class constructor.
      * @param ctx       App context
-     * @param readonly  true for read only access.
      */
-    public DatabaseAccess( Context ctx, boolean readonly  ) {
+    public DatabaseAccess( Context ctx ) {
         mContext = ctx;
         mSLDBHelper = new SLDatabaseHelper( ctx );
-        mReadonly = readonly;
     }
 
     /**
      * Will return true, if the database exists
-     * @param type  The type of the database.
      * @return      true for database exists.
      */
-    public boolean exists( DatabaseType type ) {
+    public boolean exists() {
         if ( null == mContext ) {
             return false;
         }
-        boolean exist = false;
-        if ( DatabaseType.ShoppingListType == type ) {
-            File dbFile = mContext.getDatabasePath( SLDatabaseHelper.DB_NAME );
-            exist = dbFile.exists();
+
+        File dbFile = mContext.getDatabasePath( SLDatabaseHelper.DB_NAME );
+        if ( null != dbFile ) {
+            return dbFile.exists();
         }
 
-        return exist;
+        return false;
     }
 
-    public boolean open( DatabaseType type ) {
+    public boolean open() {
         boolean res = false;
-        if ( type == DatabaseType.ShoppingListType ) {
-            if ( null != mShoppingListDB ) {
-                if ( mShoppingListDB.isOpen() ) {
-                    return true;
-                }
+        if ( null != mShoppingListDB ) {
+            if ( mShoppingListDB.isOpen() ) {
+                return true;
             }
-
-            if ( mReadonly ) {
-                mShoppingListDB = mSLDBHelper.getReadableDatabase();
-            } else {
-                mShoppingListDB = mSLDBHelper.getWritableDatabase();
-            }
-
-            if (mShoppingListDB.isOpen()) {
-                Log.d(TAG, "Opening database.");
-                res = true;
-            } else {
-                Log.d(TAG, "Cannot open database.");
-            }
+        }
+        mShoppingListDB = mSLDBHelper.getReadableDatabase();
+        if (mShoppingListDB.isOpen()) {
+            Log.d(TAG, "Opening database.");
+            res = true;
+        } else {
+            Log.d(TAG, "Cannot open database.");
         }
 
         return  res;
@@ -117,27 +101,6 @@ public class DatabaseAccess {
         return insertId;
     }
 
-    public long addNewShoppingCategory( final String categoryName ) {
-        if ( mShoppingListDB == null ) {
-            Log.d( TAG, "Cannot insert item, no database object." );
-            return -1;
-        }
-
-        if ( 0 == categoryName.length() ) {
-            Log.e( TAG, "Category name is empty" );
-            return -1;
-        }
-
-        ContentValues newItems = new ContentValues();
-        newItems.put( SLDatabaseHelper.C_SHCAT_NAME, categoryName );
-        long insertId = mShoppingListDB.insert(SLDatabaseHelper.C_SHCAT_TABLE, null, newItems);
-        if ( -1 == insertId ) {
-            Log.d( TAG, "Error while inserting values." );
-        }
-
-        return insertId;
-    }
-
     public boolean hasShoppingList( final String shopName ) {
         if ( null == shopName ) {
             return false;
@@ -173,19 +136,12 @@ public class DatabaseAccess {
             return false;
         }
 
-        String sql = "update " + SLDatabaseHelper.SHL_TABLE + " SET "
-                + SLDatabaseHelper.C_SH_LIST + "=\"" + items + "\""
+        final String sql = "update " + SLDatabaseHelper.SHL_TABLE + " SET "
+                + SLDatabaseHelper.C_SH_LIST + "=\"" + items + "\", "
                 + SLDatabaseHelper.C_SH_CATID + "=" + Integer.toString( category )
                 + " where " + SLDatabaseHelper.C_SH_SHOP + "=\"" + shopName+"\"";
         Log.d( TAG, sql );
 
-        mShoppingListDB.execSQL( sql );
-
-        return true;
-    }
-
-    public boolean deleteAllShoppingLists() {
-        String sql = "drop table if exists " + SLDatabaseHelper.SHL_TABLE;
         mShoppingListDB.execSQL( sql );
 
         return true;

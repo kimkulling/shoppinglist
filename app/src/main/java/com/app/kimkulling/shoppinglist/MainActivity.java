@@ -44,13 +44,15 @@ public class MainActivity extends AppCompatActivity {
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                mShoppingListControl.onCreateShoppingList( "new" );
+                if ( null != mShoppingListControl ) {
+                    mShoppingListControl.onCreateShoppingList("new");
+                }
             }
         });
 
         mCoordinatorLayout = (CoordinatorLayout) findViewById( R.id.coordinatorLayout );
         MessageHandler.create( mCoordinatorLayout );
-        mDBAccess = new DatabaseAccess( this, true );
+        mDBAccess = new DatabaseAccess( this );
         mShoppingListControl = new ShoppingListControl( this, mDBAccess );
         mSLView = (ListView) findViewById( R.id.shoppingListView );
         if ( null == mSLView ) {
@@ -59,11 +61,11 @@ public class MainActivity extends AppCompatActivity {
 
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
 
-        if ( mDBAccess.exists( DatabaseAccess.DatabaseType.ShoppingListType)) {
-            mDBAccess.open( DatabaseAccess.DatabaseType.ShoppingListType);
+        if ( mDBAccess.exists()) {
+            mDBAccess.open();
             ShoppingItem[] items = mDBAccess.readAllShoppingLists();
             if ( null != items ) {
-                final ArrayList<String> list = new ArrayList<String>();
+                final ArrayList<String> list = new ArrayList<>();
                 for (int i = 0; i < items.length; i++) {
                     list.add(items[i].getShop());
                 }
